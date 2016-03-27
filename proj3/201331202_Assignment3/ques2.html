@@ -1,0 +1,338 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ques2</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-09-24"><meta name="DC.source" content="ques2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Connnectd components</a></li><li><a href="#3">For maximum sized circles</a></li><li><a href="#4">For circles with  7&lt;radius&lt;8</a></li><li><a href="#5">For circles with  6&lt;radius&lt;7</a></li><li><a href="#6">For circles with  5&lt;radius&lt;6</a></li><li><a href="#7">For circles with  4&lt;radius&lt;5</a></li><li><a href="#8">For circles with  3&lt;radius&lt;4</a></li></ul></div><pre class="codeinput">close <span class="string">all</span>;
+clc;
+clear <span class="string">all</span>;
+</pre><h2>Connnectd components<a name="2"></a></h2><pre class="codeinput">myimg=imread(<span class="string">'circles.jpg'</span>);
+
+
+<span class="comment">%figure();</span>
+<span class="comment">%imshow(myimg);</span>
+<span class="comment">%impixelinfo;</span>
+<span class="comment">% d = imdistline;</span>
+
+img=myimg;
+img=rgb2gray(img);
+img=im2bw(img , 0.4);
+<span class="comment">%figure();</span>
+<span class="comment">%imshow(img);</span>
+</pre><h2>For maximum sized circles<a name="3"></a></h2><pre class="codeinput">img1=img;
+ se=strel(<span class="string">'disk'</span>,8);
+ out1=imopen(img1,se);
+ figure();
+ imshow(out1);
+ans1=connected(img1)
+L = bwlabel(img1,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans1 =
+
+   407
+
+
+ans =
+
+   406
+
+</pre><img vspace="5" hspace="5" src="ques2_01.png" alt=""> <h2>For circles with  7&lt;radius&lt;8<a name="4"></a></h2><pre class="codeinput">img2=img;
+ se=strel(<span class="string">'disk'</span>,7);
+ img2=imopen(img2,se);
+ out2=img2-out1;
+ se=strel(<span class="string">'disk'</span>,7);
+ out2=imopen(out2,se);
+ figure();
+ imshow(out2);
+ans2=connected(out2)
+L = bwlabel(out2,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans2 =
+
+   144
+
+
+ans =
+
+   144
+
+</pre><img vspace="5" hspace="5" src="ques2_02.png" alt=""> <h2>For circles with  6&lt;radius&lt;7<a name="5"></a></h2><pre class="codeinput">img3=img;
+se=strel(<span class="string">'disk'</span>,6);
+<span class="comment">%making open</span>
+
+img3=imopen(img3,se);
+out3=img3-out1;
+out3=imopen(out3,se);
+out3=out3-out2;
+out3=imopen(out3,se);
+
+figure();
+imshow(out3);
+ans3=connected(out3)
+L = bwlabel(out3,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans3 =
+
+    36
+
+
+ans =
+
+    36
+
+</pre><img vspace="5" hspace="5" src="ques2_03.png" alt=""> <h2>For circles with  5&lt;radius&lt;6<a name="6"></a></h2><pre class="codeinput">img4=img;
+se=strel(<span class="string">'disk'</span>,5);
+<span class="comment">%making open</span>
+
+img4=imopen(img4,se);
+out4=img4-out3;
+<span class="comment">%%out4=imopen(out4,se);</span>
+out4=out4-out2;
+<span class="comment">%%out4=imopen(out4,se);</span>
+out4=out4-out1;
+out4=imopen(out4,se);
+
+figure();
+imshow(out4);
+ans4=connected(out4)
+L = bwlabel(out4,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans4 =
+
+    40
+
+
+ans =
+
+    40
+
+</pre><img vspace="5" hspace="5" src="ques2_04.png" alt=""> <h2>For circles with  4&lt;radius&lt;5<a name="7"></a></h2><pre class="codeinput">img5=img;
+se=strel(<span class="string">'disk'</span>,4);
+img5=imopen(img5,se);
+out5=img5-out3;
+out5=out5-out2;
+out5=out5-out1;
+out5=out5-out4;
+out5=imopen(out5,se);
+
+figure();
+imshow(out5);
+ans5=connected(out5)
+L = bwlabel(out5,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans5 =
+
+    56
+
+
+ans =
+
+    56
+
+</pre><img vspace="5" hspace="5" src="ques2_05.png" alt=""> <h2>For circles with  3&lt;radius&lt;4<a name="8"></a></h2><pre class="codeinput">img6=img;
+se=strel(<span class="string">'disk'</span>,4);
+img6=imopen(img6,se);
+out6=img6-out3;
+out6=out6-out2;
+out6=out6-out1;
+out6=out6-out4;
+
+out6=out6-out5;
+out6=imopen(out6,se);
+
+figure();
+imshow(out6);
+ans6=connected(out6)
+L = bwlabel(out6,4);
+max(max(L))
+</pre><pre class="codeoutput">
+ans6 =
+
+     0
+
+
+ans =
+
+     0
+
+</pre><img vspace="5" hspace="5" src="ques2_06.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+close all;
+clc;
+clear all;
+%% Connnectd components 
+myimg=imread('circles.jpg');
+
+
+%figure();
+%imshow(myimg);
+%impixelinfo;
+% d = imdistline;
+
+img=myimg;
+img=rgb2gray(img);
+img=im2bw(img , 0.4);
+%figure();
+%imshow(img);
+
+%% For maximum sized circles
+img1=img;
+ se=strel('disk',8);
+ out1=imopen(img1,se);
+ figure();
+ imshow(out1);
+ans1=connected(img1)
+L = bwlabel(img1,4);
+max(max(L))
+
+%% For circles with  7<radius<8
+img2=img;
+ se=strel('disk',7);
+ img2=imopen(img2,se);
+ out2=img2-out1;
+ se=strel('disk',7);
+ out2=imopen(out2,se);
+ figure();
+ imshow(out2);
+ans2=connected(out2)
+L = bwlabel(out2,4);
+max(max(L))
+
+%% For circles with  6<radius<7
+img3=img;
+se=strel('disk',6);
+%making open
+ 
+img3=imopen(img3,se);
+out3=img3-out1;
+out3=imopen(out3,se);
+out3=out3-out2;
+out3=imopen(out3,se);
+
+figure();
+imshow(out3);
+ans3=connected(out3)
+L = bwlabel(out3,4);
+max(max(L))
+
+%%  For circles with  5<radius<6
+img4=img;
+se=strel('disk',5);
+%making open
+ 
+img4=imopen(img4,se);
+out4=img4-out3;
+%%out4=imopen(out4,se);
+out4=out4-out2;
+%%out4=imopen(out4,se);
+out4=out4-out1;
+out4=imopen(out4,se);
+
+figure();
+imshow(out4);
+ans4=connected(out4)
+L = bwlabel(out4,4);
+max(max(L))
+
+%%  For circles with  4<radius<5
+img5=img;
+se=strel('disk',4);
+img5=imopen(img5,se);
+out5=img5-out3;
+out5=out5-out2;
+out5=out5-out1;
+out5=out5-out4;
+out5=imopen(out5,se);
+
+figure();
+imshow(out5);
+ans5=connected(out5)
+L = bwlabel(out5,4);
+max(max(L))
+
+%% For circles with  3<radius<4
+img6=img;
+se=strel('disk',4);
+img6=imopen(img6,se);
+out6=img6-out3;
+out6=out6-out2;
+out6=out6-out1;
+out6=out6-out4;
+
+out6=out6-out5;
+out6=imopen(out6,se);
+
+figure();
+imshow(out6);
+ans6=connected(out6)
+L = bwlabel(out6,4);
+max(max(L))
+##### SOURCE END #####
+--></body></html>

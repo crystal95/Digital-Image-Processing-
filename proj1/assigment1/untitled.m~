@@ -1,0 +1,30 @@
+close all;
+a=imread('spot2-diff1.png');
+b=imread('spot2-diff2.png');
+
+c=imabsdiff(a,b);
+
+tmp=rgb2gray(c);
+[rows,cols]=size(tmp);
+
+figure();
+imshow(a);
+hold on;
+for i=1:rows
+    for j=1:cols
+        if(tmp(i,j)>5)
+             rectangle('Position',[i j rows/20 cols/20 ],'EdgeColor','r');
+             for k=i:i+rows/20
+                 for l=j;j+cols/20
+                     tmp(i,j)
+                 end
+             end
+           end
+    end
+end
+
+
+hold off;
+
+
+
